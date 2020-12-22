@@ -4,6 +4,7 @@ from django.urls import reverse
 from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
 from basketapp.models import Basket
 
+
 # авторизация пользователя
 def login(request):
     if request.method == 'POST':
@@ -33,19 +34,29 @@ def register(request):
     context = {'form': form}
     return render(request, 'authapp/register.html', context)
 
+
 def profile(request):
     if request.method == 'POST':
-        form = UserProfileForm(data=request.POST, instance=request.user)
+        form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('authapp:profile'))
     else:
         form = UserProfileForm(instance=request.user)
+
+    # total_quantity = 0
+    # for basket in Basket.objects.filter(user=request.user):
+    #     total_quantity += basket.quantity
+    #
+    # total_sum = 0
+    # for basket in Basket.objects.filter(user=request.user):
+    #     total_sum += basket.sum()
+    # baskets = Basket.objects.filter(user=request.user) !!!Всю логику вынести в модули
     context = {
         'form': form,
-        'baskets': Basket.objects.filter(user=request.user)
+        'baskets': Basket.objects.filter(user=request.user),
     }
-    return render(request,'authapp/profile.html', context)
+    return render(request, 'authapp/profile.html', context)
 
 
 def logout(request):
