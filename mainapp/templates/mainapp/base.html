@@ -11,7 +11,7 @@
     <title>GeekShop</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet">
 
     {% block css %} {% endblock %}
 </head>
@@ -34,7 +34,7 @@
                 </li>
                 {% if user.is_authenticated %}
                      <li class="nav-item">
-                        <a class="nav-link" href="#">{{ user.first_name }} <i class="fas fa-user-circle"></i></a>
+                        <a class="nav-link" href="{% url 'authapp:profile' %}">{{ user.username }} <i class="fas fa-user-circle"></i></a>
                      </li>
                      <li class="nav-item">
                         <a class="nav-link" href="{% url 'authapp:logout' %}">Выйти <i class="fas fa-sign-out-alt"></i></a>
@@ -56,11 +56,12 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/jquery/jquery.js' %}"></script>
+<script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.js' %}"></script>
 
 <!-- FontAwesome script -->
 <script src="{% static 'vendor/fontawesome/fontawesome-icons.js' %}" crossorigin="anonymous"></script>
 
+<script src="{% static 'js/basket.js' %}"></script>
 </body>
 </html>

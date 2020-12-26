@@ -17,7 +17,7 @@
 
         <div class="list-group">
             {% for ProductCategory in categories %}
-            <a href="#" class="list-group-item">{{ ProductCategory.name }}</a>
+                <a href="#" class="list-group-item">{{ ProductCategory.name }}</a>
             {% endfor %}
         </div>
 
@@ -57,11 +57,11 @@
         {% for product in products %}
             <div class="col-lg-4 col-md-6 mb-4">
                 <div class="card h-100">
-                  <a href="#">
-                  <img class="card-img-top"
-                       src="/media/{{ product.image }}"
-                       alt="">
-                  </a>
+                    <a href="#">
+                        <img class="card-img-top"
+                             src="/media/{{ product.image }}"
+                             alt="">
+                    </a>
                     <div class="card-body">
                         <h4 class="card-title">
                             <a href="#">{{ product.name }}</a>
@@ -69,9 +69,11 @@
                         <h5>{{ product.price }} руб.</h5>
                         <p class="card-text">{{ product.short_description }}</p>
                     </div>
-                        <div class="card-footer text-center">
-                         <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
-                        </div>
+                    <div class="card-footer text-center">
+                        <a href="{% url 'baskets:basket_add' product.id  %}">
+                            <button type="button" class="btn btn-outline-success">Отправить в корзину</button>
+                        </a>
+                    </div>
                 </div>
             </div>
         {% endfor %}
