@@ -1,0 +1,13 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10LbQtNC10L3QuNC1INGD0YfRkdGC0L3QvtC5INC30LDQv9C4?=
+ =?utf-8?b?0YHQuCBhbGV4MTExMTE=?=
+From: django@geekshop.local
+To: sadasdt@mail.com
+Date: Mon, 18 Jan 2021 20:39:34 -0000
+Message-ID: <161100237459.8640.7581716908746553732@Alex>
+
+Для подтверждения перейдите по ссылке: http://localhost:8000/auth/verify/sadasdt@mail.com/58fe701f9146372ab698cd638e287b4e84087be7
+-------------------------------------------------------------------------------
