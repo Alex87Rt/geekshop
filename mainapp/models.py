@@ -1,16 +1,18 @@
 from django.db import models
 
+
 class ProductCategory(models.Model):
     objects = None
     name = models.CharField(max_length=64, unique=True)
     description = models.TextField(blank=True)
-    
+
     class Meta:
-        verbose_name='Категория'
+        verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
-        
+
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     objects = None
@@ -23,7 +25,7 @@ class Product(models.Model):
     category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name='Продукт'
+        verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
 
     def __str__(self):

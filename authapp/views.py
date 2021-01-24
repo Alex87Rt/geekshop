@@ -24,8 +24,11 @@ def verify(request, email, activation_key):
             user.is_active = True
             user.activation_key = None
             user.save()
-            auth.login(request, user)
-        return render(request, 'authapp/verification.html')
+            auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            return render(request, 'authapp/verification.html')
+        else:
+            print(f'key error activation user: {user}')
+            return render(request, 'authapp/verification.html')
     except Exception as ex:
         return HttpResponseRedirect(reverse('main'))
 
