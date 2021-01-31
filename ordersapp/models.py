@@ -40,7 +40,7 @@ class Order(models.Model):
 
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
-        self.orderitems = None
+
 
     def get_total_quantity(self):
         _items = self.orderitems.select_related()
@@ -68,3 +68,7 @@ class OrderItem(models.Model):
 
     def get_product_cost(self):
         return self.product.price * self.quantity
+
+    @staticmethod
+    def get_item(pk):
+        return OrderItem.objects.filter(pk=pk).first()
