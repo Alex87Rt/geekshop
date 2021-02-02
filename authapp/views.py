@@ -1,9 +1,10 @@
 from django.conf import settings
 from django.core.mail import send_mail
+from django.db import transaction
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse
-from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, ShopUserProfileEditForm
 from authapp.models import User
 from basketapp.models import Basket
 
@@ -20,7 +21,7 @@ def send_verify_email(user):
 def verify(request, email, activation_key):
     try:
         user = User.objects.get(email=email)
-        if user.activation_key == activation_key and user.is_activation_key_expired():
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
             user.is_active = True
             user.activation_key = None
             user.save()
@@ -30,6 +31,7 @@ def verify(request, email, activation_key):
             print(f'key error activation user: {user}')
             return render(request, 'authapp/verification.html')
     except Exception as ex:
+        print(f'error activation user : {ex.args}')
         return HttpResponseRedirect(reverse('main'))
 
 
@@ -60,11 +62,11 @@ def register(request):
             else:
                 print('failed')
             messages.success(request, 'Вы успешно зарегистрировались!')
-            return HttpResponseRedirect(reverse('authapp:login'))
+            return HttpResponseRedirect(reverse('auth:login'))
     else:
         form = UserRegisterForm()
-    context = {'form': form}
-    return render(request, 'authapp/register.html', context)
+        context = {'form': form}
+        return render(request, 'authapp/register.html', context)
 
 
 def profile(request):
@@ -96,16 +98,21 @@ def logout(request):
     return HttpResponseRedirect(reverse('main'))
 
 
+@transaction.atomic
 def edit(request):
     title = 'редактирование'
     if request.method == 'POST':
         edit_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
-        profile_form = UserProfileForm(request.POST, instance=request.user.shopuserprofile)
+        profile_form = ShopUserProfileEditForm(request.POST, instance=request.user.shopuserprofile)
         if edit_form.is_valid() and profile_form.is_valid():
             edit_form.save()
-            return HttpResponseRedirect(reverse('auth:edit'))
+            return HttpResponseRedirect(reverse('authapp:edit'))
     else:
         edit_form = UserProfileForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user.shopuserprofile)
-    content = {'title': title, 'edit_form': edit_form, 'profile_form': profile_form}
+        profile_form = ShopUserProfileEditForm(instance=request.user.shopuserprofile)
+    content = {
+        'title': title,
+        'edit_form': edit_form,
+        'profile_form': profile_form
+    }
     return render(request, 'authapp/edit.html', content)

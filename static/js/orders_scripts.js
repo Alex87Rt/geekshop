@@ -18,7 +18,7 @@ window.onload = function () {
         }
     }
 
-    function orderSummaryRecalc(){
+    function orderSummaryRecalc() {
         order_total_price = 0;
         order_total_quantity = 0;
         for (var i = 0; i < TOTAL_FORMS; i++) {
@@ -27,9 +27,7 @@ window.onload = function () {
         }
         $('.order_total_cost').html(order_total_price.toString());
         $('.order_total_quantity').html(Number(order_total_quantity.toFixed(2).toString()));
-
     }
-
 
     $('.order_form').on('click', 'input[type="number"]', function () {
         var target = event.target;
@@ -41,6 +39,7 @@ window.onload = function () {
             orderSummaryUpdate(price_arr[orderitem_num], delta_quantity);
         }
     });
+
     $('.order_form').on('click', 'input[type="checkbox"]', function () {
         var target = event.target;
         orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-DELETE', ''));

@@ -20,7 +20,7 @@ class User(AbstractUser):
     #     return self.username
 
     def is_activation_key_expired(self):
-        if now() < self.activation_key_expires:
+        if now() <= self.activation_key_expires:
             return False
         else:
             return True
@@ -36,7 +36,7 @@ class ShopUserProfile(models.Model):
     )
 
     user = models.OneToOneField(User, unique=True, null=False, db_index=True, on_delete=models.CASCADE)
-    tagline = models.CharField(blank=True, max_length=255, verbose_name='теги')
+    tagline = models.CharField(blank=True, max_length=256, verbose_name='теги')
     about_me = models.TextField(blank=True, max_length=512, verbose_name='обо мне')
     gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True, verbose_name='пол')
 
