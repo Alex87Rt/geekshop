@@ -23,7 +23,7 @@ class Basket(models.Model):
         return f'Корзина для {self.user.username} | Продукт {self.product.name}'
 
     def get_items(user):
-        return Basket.objects.filter(user=user).order_by('product__category')
+        return Basket.objects.filter(user=user).order_by('product__category').select_related()
 
     def sum(self):
         return self.quantity * self.product.price
