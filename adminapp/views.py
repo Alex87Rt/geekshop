@@ -104,7 +104,7 @@ class UserDeleteView(DeleteView):
 
 class CategoryListView(ListView):
     model = User
-    template_name = 'adminapp/admin-categories-read.html'
+    template_name = 'adminapp/categories.html'
 
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs): #отвечает за отображение определенной страницы
@@ -125,7 +125,7 @@ class CategoryCreateView(CreateView):
 
 class CategoryUpdateView(UpdateView):
     model = User
-    template_name = 'adminapp/admin-categories-update-delete.html'
+    template_name = 'adminapp/admin-categories-update.html'
     success_url = reverse_lazy('adminapp:categories')
     form_class = UserAdminProfileForm
 
@@ -135,7 +135,7 @@ class CategoryUpdateView(UpdateView):
 
 class CategoryDeleteView(DeleteView):
     model = User
-    template_name = 'adminapp/admin-categories-update-delete.html'
+    template_name = 'adminapp/admin-categories-remove.html'
     success_url = reverse_lazy('adminapp:categories')
 
     def delete(self, request, *args, **kwargs):

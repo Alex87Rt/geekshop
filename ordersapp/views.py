@@ -23,7 +23,7 @@ class OrderList(ListView):
 class OrderCreate(CreateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('ordersapp:orders')
+    success_url = reverse_lazy('ordersapp:order_list')
 
     def get_context_data(self, **kwargs):
         data = super(OrderCreate, self).get_context_data(**kwargs)
@@ -67,7 +67,7 @@ class OrderCreate(CreateView):
 class OrderUpdate(UpdateView):
     model = Order
     fields = []
-    success_url = reverse_lazy('ordersapp:orders')
+    success_url = reverse_lazy('ordersapp:order_list')
 
     def get_context_data(self, **kwargs):
         data = super(OrderUpdate, self).get_context_data(**kwargs)
@@ -100,12 +100,12 @@ class OrderUpdate(UpdateView):
 
 class OrderDelete(DeleteView):
     model = Order
-    success_url = reverse_lazy('ordersapp:orders')
+    success_url = reverse_lazy('ordersapp:order_list')
 
 
 class OrderDetail(DetailView):
     model = Order
-    success_url = reverse_lazy('ordersapp:orders')
+    success_url = reverse_lazy('ordersapp:order_list')
     # def get_context_data (self, **kwargs):
     #     context = super(OrderDetail, self).get_context_data(**kwargs)
     #     context[ 'title' ] = 'заказ/просмотр'
@@ -116,13 +116,13 @@ def order_forming_complete(request, pk):
     order = get_object_or_404(Order, pk=pk)
     order.status = Order.SENT_TO_PROCEED
     order.save()
-    return HttpResponseRedirect(reverse('ordersapp:orders'))
+    return HttpResponseRedirect(reverse('ordersapp:order_list'))
 
 
 @receiver(pre_save, sender=Basket)
 @receiver(pre_save, sender=OrderItem)
 def product_quantity_update_save(sender, update_fields, instance, **kwargs):
-    if update_fields is 'quantity' or 'product':
+    if update_fields == 'quantity' or 'product':
         if instance.pk:
             instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
         else:
@@ -144,3 +144,5 @@ def get_product_price(request, pk):
             return JsonResponse({'price': product_item.price})
         else:
             return JsonResponse({'price': 0})
+
+

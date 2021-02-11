@@ -5,7 +5,7 @@ from mainapp.models import Product
 
 
 class Order(models.Model):
-    objects = None
+    # objects = None
     FORMING = 'FM'
     SENT_TO_PROCEED = 'STP'
     PROCEEDED = 'PRD'
